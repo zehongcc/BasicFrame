@@ -20,15 +20,24 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected String TAG ;
 
+    private OnPermissionCallBack callBack;
+    private int permissionCode;
+
+    protected abstract int setLayout();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(setLayout());
         TAG = this.getLocalClassName();
     }
 
-    private OnPermissionCallBack callBack;
-    private int permissionCode;
+    /**
+     * 动态请求权限
+     * @param permissions
+     * @param requestCode
+     * @param c
+     */
     protected void checkPermissions(String[] permissions, int requestCode, OnPermissionCallBack c) {
         callBack = c;
         this.permissionCode = requestCode;
@@ -45,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             ActivityCompat.requestPermissions(this, requestArray, requestCode);
         } else {
-            callBack.onSuccess();
+            callBack.requestPermissionCallBack(true,permissionCode);
         }
     }
 
@@ -55,24 +64,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (requestCode == permissionCode) {
             boolean isSuccess =  true;
             for (int i = 0; i < grantResults.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     isSuccess = false ;
                     break;
                 }
             }
             if (isSuccess){
-                callBack.onSuccess();
+                callBack.requestPermissionCallBack(true,permissionCode);
             }else {
-                callBack.onRefuse();
+                callBack.requestPermissionCallBack(false,permissionCode);
             }
         }
     }
 
-    protected interface OnPermissionCallBack {
-        void onSuccess();
-
-        void onRefuse();
+    public interface OnPermissionCallBack {
+        void requestPermissionCallBack(boolean isSuccess , int requestCode);
     }
-
-
 }

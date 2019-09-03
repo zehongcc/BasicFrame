@@ -1,31 +1,27 @@
 package com.czh.basicframe;
 
 import android.Manifest;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
 import com.czh.basicframe.base.BaseActivity;
+import com.czh.basicframe.utils.LogUtils;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements BaseActivity.OnPermissionCallBack {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        checkPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, 11, new OnPermissionCallBack() {
-            @Override
-            public void onSuccess() {
-                Log.e(TAG, "onSuccess: >>>>  允许" );
-            }
-
-            @Override
-            public void onRefuse() {
-                Log.e(TAG, "onSuccess: >>>>  拒绝" );
-            }
-        });
+    protected int setLayout() {
+        return R.layout.activity_main;
     }
 
+    //请求权限
+    public void toRequest(View view) {
+        checkPermissions(new String[]{Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO}, 110, this);
+    }
 
+    @Override
+    public void requestPermissionCallBack(boolean isSuccess, int requestCode) {
+        LogUtils.d("请求权限" + isSuccess + " , 请求码：" + requestCode);
+    }
 }
