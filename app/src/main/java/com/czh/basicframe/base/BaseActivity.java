@@ -11,9 +11,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.widget.Toast;
 
+import com.czh.basicframe.mvp.BasePresenter;
+import com.czh.basicframe.mvp.BaseView;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.PermissionUtils;
+import com.czh.basicframe.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +43,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
 
+    protected ToastUtils toast;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContext = this;
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        toast = ToastUtils.getInstance();
     }
 
     @Override
@@ -77,6 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void onEventBus(EventBean object) {
+
     }
 
     @Override
@@ -84,6 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 
 
 }

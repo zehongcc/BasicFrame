@@ -1,7 +1,9 @@
 package com.czh.basicframe;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.czh.basicframe.base.BaseActivity;
+import com.czh.basicframe.mvp.BasePresenter;
+import com.czh.basicframe.mvp.presenters.TestPresenter;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.EventConfig;
 import com.czh.basicframe.utils.LogUtils;
@@ -41,6 +45,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         testFragment = new TestFragment();
         transaction.add(R.id.frameLayout, testFragment);
@@ -73,6 +78,7 @@ public class MainActivity extends BaseActivity {
                 EventBus.getDefault().postSticky(new EventBean(EventConfig.TEST_CODE, "这是一条activity发送到fragment的内容!"));
                 break;
             case R.id.btn3:
+                PermissionUtils.getInstance().toSettingMainager();
                 break;
         }
     }

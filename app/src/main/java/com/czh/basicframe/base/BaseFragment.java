@@ -9,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.czh.basicframe.R;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.PermissionUtils;
+import com.czh.basicframe.utils.ToastUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -42,6 +44,8 @@ public abstract class BaseFragment extends Fragment {
 
     protected Unbinder unbinder;
 
+    protected  ToastUtils toast;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -63,6 +67,7 @@ public abstract class BaseFragment extends Fragment {
     private void init() {
         permissionUtils = PermissionUtils.getInstance();
         mContext = getContext();
+        toast = ToastUtils.getInstance();
     }
 
     @Override

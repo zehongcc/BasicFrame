@@ -1,13 +1,25 @@
 package com.czh.basicframe.utils;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.czh.basicframe.base.BaseActivity;
+import com.czh.basicframe.base.BaseApplication;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +29,10 @@ import java.util.List;
  * 详情 :
  */
 public class PermissionUtils {
+
+    private static final String TAG = "PermissionUtils";
+
+    private String packageName = "com.czh.basicframe";
 
     public static PermissionUtils getInstance() {
         return PermissionHolder.instance;
@@ -83,6 +99,18 @@ public class PermissionUtils {
 
     public interface OnPermissionCallBack {
         void requestPermissionCallBack(boolean isSuccess, int requestCode);
+    }
+
+    //跳转到应用的设置界面。
+    private void goIntentSetting() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", BaseApplication.getContext().getPackageName(), null);
+        intent.setData(uri);
+        try {
+            BaseApplication.getContext().startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
