@@ -33,20 +33,20 @@ public class SharedPerfencensUtils {
         editor = sharedPreferences.edit();
     }
 
+    /////////////// get /////////////////////
     public String getString(String key) {
         throwEx();
         return sharedPreferences.getString(key, "");
     }
 
-    public int getInt(String key, int defaultValues) {
+    public Long getLong(String key) {
         throwEx();
-        return sharedPreferences.getInt(key, defaultValues);
+        return sharedPreferences.getLong(key, 0);
     }
 
-    public void putInt(String key, int value) {
+    public float getFloat(String key) {
         throwEx();
-        editor.putInt(key, value);
-        commit();
+        return sharedPreferences.getFloat(key, 0f);
     }
 
     public boolean getBoolean(String key) {
@@ -54,9 +54,22 @@ public class SharedPerfencensUtils {
         return sharedPreferences.getBoolean(key, false);
     }
 
+    public int getInt(String key, int defaultValues) {
+        throwEx();
+        return sharedPreferences.getInt(key, defaultValues);
+    }
+
+    ////////////////// put ////////////////////
+
     public void putString(String key, String value) {
         throwEx();
         editor.putString(key, value);
+        commit();
+    }
+
+    public void putInt(String key, int value) {
+        throwEx();
+        editor.putInt(key, value);
         commit();
     }
 
@@ -66,29 +79,48 @@ public class SharedPerfencensUtils {
         commit();
     }
 
+    public void putLong(String key, long value) {
+        throwEx();
+        editor.putLong(key, value);
+        commit();
+    }
+
+    public void putFloat(String key, float value) {
+        throwEx();
+        editor.putFloat(key, value);
+        commit();
+    }
+
     public void remove(String key) {
         throwEx();
         editor.remove(key);
         commit();
     }
 
-
     /**
      * 抛出异常
      */
     private void throwEx() {
         if (sharedPreferences == null || editor == null) {
-            throw new NullPointerException("sharedPreferences is null , init this class in application !!!");
+            throw new NullPointerException("sharedPreferences is null , init this class in BaseApplication !!!");
         }
     }
 
     /**
-     * 提交
+     * 提交 ： 同步提交到磁盘，有返回boolean, 效率低。
      */
     private void commit() {
         if (editor != null) {
-            editor.apply();
             editor.commit();
+        }
+    }
+
+    /**
+     * 提交： 没有返回值，提交的时候放在内存，然后异步提交到磁盘，不会返回提交结果，不在乎结果的话可使用。 --- 效率高，异步，不返回结果。
+     */
+    private void apply() {
+        if (editor != null) {
+            editor.apply();
         }
     }
 }

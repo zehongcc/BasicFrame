@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.czh.basicframe.utils.LogUtils;
+import com.czh.basicframe.utils.SharedPerfencensUtils;
 
 /**
  * author  : czh
@@ -12,11 +13,18 @@ import com.czh.basicframe.utils.LogUtils;
  */
 public class BaseApplication extends Application {
 
+    private static Context context;
+
+    public static Context getContext() {
+        return context;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         LogUtils.setIsDebug(true);
+        SharedPerfencensUtils.getInstance().init(this);
     }
-
 
 }
