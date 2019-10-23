@@ -1,32 +1,23 @@
 package com.czh.basicframe.utils;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.czh.basicframe.base.BaseActivity;
 import com.czh.basicframe.base.BaseApplication;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * author  : czh
  * create Date : 2019/10/22  9:53
- * 详情 :
+ * 详情 : 权限请求工具
  */
 public class PermissionUtils {
 
@@ -58,7 +49,8 @@ public class PermissionUtils {
         this.permissionCode = requestCode;
         List<String> pList = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {
-            if (ContextCompat.checkSelfPermission(activity, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(activity, permissions[i])
+                    != PackageManager.PERMISSION_GRANTED) {
                 pList.add(permissions[i]);
             }
         }

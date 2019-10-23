@@ -3,7 +3,7 @@ package com.czh.basicframe.utils;
 /**
  * author  : czh
  * create Date : 2019/10/22  10:52
- * 详情 :
+ * 详情 : event 消息
  */
 public class EventBean {
     private int tag;
