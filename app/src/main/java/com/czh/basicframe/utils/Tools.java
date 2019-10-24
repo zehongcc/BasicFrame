@@ -54,4 +54,28 @@ public class Tools {
         //执行上面的代码后光标会处于输入框的最前方,所以把光标位置挪到文字的最后面
         editText.setSelection(editText.getText().toString().length());
     }
+
+    public long lastClick = 0;
+
+    /**
+     * 2、快速点击判断
+     * @param x
+     * @return
+     */
+    public boolean fastClick(int x) {
+        if (System.currentTimeMillis() - lastClick <= (x * 1000)) {
+            return true;
+        }
+        lastClick = System.currentTimeMillis();
+        return false;
+    }
+
+    public boolean fastClick() {
+        if (System.currentTimeMillis() - lastClick <= 1000) {
+            return true;
+        }
+        lastClick = System.currentTimeMillis();
+        return false;
+    }
+
 }
