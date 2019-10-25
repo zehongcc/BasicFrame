@@ -1,28 +1,25 @@
-package com.czh.basicframe;
+package com.czh.basicframe.ui;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseFragment;
+import com.czh.basicframe.interfaces.DialogClickListener;
 import com.czh.basicframe.interfaces.OnCameraCallback;
-import com.czh.basicframe.utils.Code;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.PermissionUtils;
+import com.czh.basicframe.widget.dialog.NormDialog;
 
 import java.io.File;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * author  : czh
@@ -37,6 +34,8 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
     Button btn1;
     @BindView(R.id.btn2)
     Button btn2;
+    @BindView(R.id.btn3)
+    Button btn3;
 
     @Override
     protected int setLayout() {
@@ -51,7 +50,7 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
     protected void main() {
     }
 
-    @OnClick({R.id.btn1, R.id.btn2})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -79,6 +78,21 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
                         }
                     }
                 });
+                break;
+            case R.id.btn3:
+                NormDialog dialog = new NormDialog.Builder(mContext)
+                        .setTitle("aaa")
+                        .setContent("bbb")
+                        .setOk("ok")
+                        .setCancel("cancel")
+                        .setClickListener(new DialogClickListener() {
+                            @Override
+                            public void onClick(View view, int result) {
+                                toast.shortToast(result == 1 ? "OK" : "Cancel");
+                            }
+                        })
+                        .create();
+                dialog.show();
                 break;
         }
     }

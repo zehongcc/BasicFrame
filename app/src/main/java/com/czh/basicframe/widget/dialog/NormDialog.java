@@ -114,7 +114,7 @@ public class NormDialog extends Dialog implements View.OnClickListener {
             return this;
         }
 
-        public Builder setOkClickListener(DialogClickListener listener) {
+        public Builder setClickListener(DialogClickListener listener) {
             parameter.listener = listener;
             return this;
         }

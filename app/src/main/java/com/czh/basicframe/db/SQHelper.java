@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
 import com.czh.basicframe.base.BaseApplication;
+import com.czh.basicframe.utils.LogUtils;
+
+import static com.czh.basicframe.utils.Code.DB_VERSION;
 
 /**
  * author  : czh
@@ -21,17 +24,21 @@ public class SQHelper extends SQLiteOpenHelper {
 
 
     public SQHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("Create table " + TABLE_NAME_1 + "(_id Integer primary key autoincrement , name varchar (10) , age Integer(3))" );
-        db.execSQL("create table " + TABLE_NAME_2 + "(_id Integer primary key autoincrement , name varchar (20) , number Integer(666))");
+        LogUtils.e("SQHelper", ">>>>>> onCreate >>>>>>> ");
+        //第一次会调用创建方法，仅此一次
+        db.execSQL("Create table " + TABLE_NAME_1 + "(_id Integer primary key autoincrement , name varchar (10) , age Integer(3))");
+        db.execSQL("create table " + TABLE_NAME_2 + "(_id Integer primary key autoincrement , name varchar (20) , number Integer(100))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        LogUtils.e("SQHelper", ">>>>>> !! onUpgrade !! >>>>>>> ");
+        //版本号升级的时候会调用此方法
+        db.execSQL("alter table " + TABLE_NAME_1 + " add sex boolean");
     }
 }

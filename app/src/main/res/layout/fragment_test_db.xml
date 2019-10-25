@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/db_name_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/db_age_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/db_content_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="5"
+                    android:padding="10dp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/db_btn0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更新数据库" />
+
+            <Button
+                android:id="@+id/db_btn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="插入数据" />
+
+            <Button
+                android:id="@+id/db_btn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除数据" />
+
+            <Button
+                android:id="@+id/db_btn3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改数据" />
+
+            <Button
+                android:id="@+id/db_btn4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询数据" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
