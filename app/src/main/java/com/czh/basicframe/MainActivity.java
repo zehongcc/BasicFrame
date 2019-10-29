@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import com.czh.basicframe.base.BaseActivity;
 import com.czh.basicframe.db.SQHelper;
 import com.czh.basicframe.interfaces.OnCameraCallback;
+import com.czh.basicframe.ui.Fragment_Animation;
 import com.czh.basicframe.ui.Fragment_Test_DB;
 import com.czh.basicframe.ui.TestFragment;
 import com.czh.basicframe.utils.EventBean;
@@ -47,6 +48,7 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
         fragments = new ArrayList<>();
         fragments.add(new FragmentBean("Test", false, new TestFragment()));
         fragments.add(new FragmentBean("db", false, new Fragment_Test_DB()));
+        fragments.add(new FragmentBean("动画", false, new Fragment_Animation()));
     }
 
     @Override

@@ -11,10 +11,4 @@ public interface BaseView {
     void showDialog();
 
     void hideDialog();
-
-
-    interface TestView extends BaseView {
-        void onTest();
-    }
-
 }

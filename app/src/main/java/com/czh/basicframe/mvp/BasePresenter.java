@@ -10,7 +10,7 @@ import java.lang.reflect.Proxy;
  * create Date : 2019/10/22  15:42
  * 详情 :
  */
-public abstract class BasePresenter<T extends BaseView> implements ImpPresenter {
+public abstract class BasePresenter<T extends BaseView> extends BaseModel implements ImpPresenter {
 
     protected T mView;
 
@@ -27,14 +27,14 @@ public abstract class BasePresenter<T extends BaseView> implements ImpPresenter 
         mView = (T) Proxy.newProxyInstance(view.getClass().getClassLoader(),
                 view.getClass().getInterfaces(),
                 new InvocationHandler() {
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                if (mReferenceView == null || mReferenceView.get() == null) {
-                    return null;
-                }
-                return method.invoke(mReferenceView.get(), args);
-            }
-        });
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        if (mReferenceView == null || mReferenceView.get() == null) {
+                            return null;
+                        }
+                        return method.invoke(mReferenceView.get(), args);
+                    }
+                });
     }
 
     @SuppressWarnings("unchecked")

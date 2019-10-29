@@ -81,8 +81,8 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
                 break;
             case R.id.btn3:
                 NormDialog dialog = new NormDialog.Builder(mContext)
-                        .setTitle("aaa")
-                        .setContent("bbb")
+                        .setTitle("温馨提示")
+                        .setContent("确认是否退出登录？")
                         .setOk("ok")
                         .setCancel("cancel")
                         .setClickListener(new DialogClickListener() {
