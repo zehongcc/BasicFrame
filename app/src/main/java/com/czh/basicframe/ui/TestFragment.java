@@ -2,9 +2,11 @@ package com.czh.basicframe.ui;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.czh.basicframe.R;
@@ -17,6 +19,7 @@ import com.czh.basicframe.utils.PermissionUtils;
 import com.czh.basicframe.widget.dialog.NormDialog;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,6 +39,8 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
     Button btn2;
     @BindView(R.id.btn3)
     Button btn3;
+    @BindView(R.id.test_show_tv)
+    TextView showTv ;
 
     @Override
     protected int setLayout() {
@@ -50,7 +55,7 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
     protected void main() {
     }
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -94,7 +99,31 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
                         .create();
                 dialog.show();
                 break;
+            case R.id.btn4:
+                throw new RuntimeException("测试测试");
+            case R.id.btn5:
+                String s = loadFromSDFile();
+                showTv.setText(s);
+                break;
+            default:
+                break;
         }
+    }
+
+    private String loadFromSDFile() {
+        String result = null;
+        try {
+            File f = new File(mContext.getExternalCacheDir().getAbsolutePath() + "/CrashHandlder/cash.txt");
+            int length = (int) f.length();
+            byte[] buff = new byte[length];
+            FileInputStream fin = new FileInputStream(f);
+            fin.read(buff);
+            fin.close();
+            result = new String(buff, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 

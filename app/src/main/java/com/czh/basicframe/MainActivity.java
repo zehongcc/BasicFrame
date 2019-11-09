@@ -15,6 +15,8 @@ import com.czh.basicframe.base.BaseActivity;
 import com.czh.basicframe.db.SQHelper;
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.ui.Fragment_Animation;
+import com.czh.basicframe.ui.Fragment_ConstraintLayout;
+import com.czh.basicframe.ui.Fragment_TestIM;
 import com.czh.basicframe.ui.Fragment_Test_DB;
 import com.czh.basicframe.ui.TestFragment;
 import com.czh.basicframe.utils.EventBean;
@@ -46,9 +48,11 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
     @Override
     protected void init(Bundle savedInstanceState) {
         fragments = new ArrayList<>();
+        fragments.add(new FragmentBean("IM测试", false, new Fragment_TestIM()));
         fragments.add(new FragmentBean("Test", false, new TestFragment()));
         fragments.add(new FragmentBean("db", false, new Fragment_Test_DB()));
         fragments.add(new FragmentBean("动画", false, new Fragment_Animation()));
+        fragments.add(new FragmentBean("ConstraintLayout", false, new Fragment_ConstraintLayout()));
     }
 
     @Override
@@ -82,7 +86,7 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
         FragmentBean fragmentBean = fragments.get(index);
         Fragment fragment = fragmentBean.getFragment();
         boolean add = fragmentBean.isAdd();
-        LogUtils.e("ChangeFragment === "+index + " ,, "+add);
+        LogUtils.e("ChangeFragment === " + index + " ,, " + add);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         for (int i = 0; i < fragments.size(); i++) {
             Fragment f = fragments.get(i).getFragment();
@@ -92,8 +96,8 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
             transaction.add(R.id.frameLayout, fragment);
             transaction.show(fragment);
             fragmentBean.setAdd(true);
-        }else {
-            transaction.show(fragment) ;
+        } else {
+            transaction.show(fragment);
         }
         transaction.commit();
     }

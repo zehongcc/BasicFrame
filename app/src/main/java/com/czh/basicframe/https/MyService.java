@@ -1,12 +1,5 @@
 package com.czh.basicframe.https;
 
-
-import io.reactivex.Observable;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-
-
 /**
  * author  : czh
  * create Date : 2019/10/22  11:54
@@ -46,7 +39,5 @@ public interface MyService {
      *
      **/
 
-    @GET("{url}")
-    Observable<Object> test(@Path("url") String url);
 
 }

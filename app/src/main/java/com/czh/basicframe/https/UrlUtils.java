@@ -6,6 +6,7 @@ package com.czh.basicframe.https;
  * 详情 :
  */
 public class UrlUtils {
-    public static final String IP = "https://www.wanandroid.com/" ;
+
+    public static final String IP = "http://192.168.1.180:8359/";
 
 }

@@ -76,6 +76,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         toast = ToastUtils.getInstance();
     }
 
+
+    /**
+     * 界面跳转
+     *
+     * @param cls 跳转的界面
+     */
+    protected void toAct(Class cls) {
+        Intent intent = new Intent(mContext, cls);
+        mContext.startActivity(intent);
+    }
+
+    /**
+     * 带参数跳转界面
+     * @param bundle
+     * @param cls
+     */
+    protected void toAct(Bundle bundle, Class cls) {
+        Intent intent = new Intent(mContext, cls);
+        intent.putExtra("bundle", bundle);
+        mContext.startActivity(intent);
+    }
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

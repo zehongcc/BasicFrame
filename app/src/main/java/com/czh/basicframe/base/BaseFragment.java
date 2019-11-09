@@ -16,6 +16,7 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.utils.Code;
 import com.czh.basicframe.utils.EventBean;
@@ -54,9 +55,10 @@ public abstract class BaseFragment extends Fragment {
 
     protected View mView;
 
-    protected Unbinder unbinder;
+    protected Unbinder mUnbinder;
 
     protected ToastUtils toast;
+
 
     @Override
     public void onAttach(Context context) {
@@ -70,7 +72,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(setLayout(), container, false);
         mView = view;
-        unbinder = ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         init();
         initValue(savedInstanceState);
         main();
@@ -86,7 +88,29 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
+     * 界面跳转
+     *
+     * @param cls 跳转的界面
+     */
+    protected void toAct(Class cls) {
+        Intent intent = new Intent(mContext, cls);
+        mContext.startActivity(intent);
+    }
+
+    /**
+     * 带参数跳转界面
+     * @param bundle
+     * @param cls
+     */
+    protected void toAct(Bundle bundle, Class cls) {
+        Intent intent = new Intent(mContext, cls);
+        intent.putExtra("bundle", bundle);
+        mContext.startActivity(intent);
+    }
+
+    /**
      * 权限请求回调
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -203,7 +227,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        mUnbinder.unbind();
     }
 
 }

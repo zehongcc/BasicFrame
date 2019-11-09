@@ -6,6 +6,7 @@
 
     <color name="color_white">#FFFFFF</color>
     <color name="color_black">#000000</color>
-
     <color name="color_bg">#F6F6F6</color>
+    <color name="color_line">#999999</color>
+    <color name="color_a_line">#66999999</color>
 </resources>

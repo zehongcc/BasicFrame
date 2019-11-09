@@ -6,11 +6,8 @@ import android.net.NetworkInfo;
 
 import com.czh.basicframe.base.BaseApplication;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -18,7 +15,6 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Url;
 
 /**
  * author  : czh
@@ -38,6 +34,7 @@ public class RetrofitUtils {
     private MyService mService;
 
     public RetrofitUtils() {
+
         retrofit = new Retrofit.Builder().baseUrl(UrlUtils.IP)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkhttpClient())
@@ -51,9 +48,10 @@ public class RetrofitUtils {
     }
 
     private OkHttpClient getOkhttpClient() {
-        File cacheFile = new File(BaseApplication.getContext().getExternalCacheDir(), "http_cache");
-        long cacheSize = 10 * 1024 * 1024;//10M缓存空间
-        Cache cache = new Cache(cacheFile, cacheSize);
+//        File cacheFile = new File(BaseApplication.getContext().getExternalCacheDir(), "http_cache");
+//        long cacheSize = 10 * 1024 * 1024;//10M缓存空间
+//        Cache cache = new Cache(cacheFile, cacheSize);
+        // TODO: 2019/11/6 感觉这个缓存设置下去对token的请求有致命影响
         OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -61,7 +59,7 @@ public class RetrofitUtils {
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(new HttpLogInterceptor())
-                .cache(cache)
+//                .cache(cache)
                 .build();
         return client;
     }
@@ -69,19 +67,16 @@ public class RetrofitUtils {
     /**
      * 设置网络拦截器
      */
-    private Interceptor interceptor = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            Response response = chain.proceed(request);
-            if (isNetworkReachable(BaseApplication.getContext())) {
-                int maxAge = 60 * 60 * 24 * 2;
-                return response.newBuilder().removeHeader("Pragma")
-                        .header("Cache-Control", "public ,max-age=" + maxAge)
-                        .build();
-            }
-            return response;
+    private Interceptor interceptor = chain -> {
+        Request request = chain.request();
+        Response response = chain.proceed(request);
+        if (isNetworkReachable(BaseApplication.getContext())) {
+            int maxAge = 60 * 60 * 24 * 2;
+            return response.newBuilder().removeHeader("Pragma")
+                    .header("Cache-Control", "public ,max-age=" + maxAge)
+                    .build();
         }
+        return response;
     };
 
     /**

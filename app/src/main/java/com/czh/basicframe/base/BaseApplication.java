@@ -3,8 +3,11 @@ package com.czh.basicframe.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.czh.basicframe.utils.CrashHandler;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.SharedPerfencensUtils;
+
+import cn.jpush.im.android.api.JMessageClient;
 
 /**
  * author  : czh
@@ -25,6 +28,10 @@ public class BaseApplication extends Application {
         context = this;
         LogUtils.setIsDebug(true);
         SharedPerfencensUtils.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
+        //极光IM
+        JMessageClient.setDebugMode(true);
+        JMessageClient.init(this);
     }
 
 }
