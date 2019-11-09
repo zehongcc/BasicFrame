@@ -12,9 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
 
-        <com.zs.liuchuangyuan.utils.widget.CircleImage
-            app:border_color="@color/color_white"
-            app:border_width="1dp"
+        <ImageView
             android:id="@+id/jmui_avatar_iv"
             style="@style/jmui_chat_item_sender_avatar_style"/>
 

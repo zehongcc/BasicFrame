@@ -1,15 +1,11 @@
 package com.czh.basicframe.ui;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseFragment;
-import com.czh.basicframe.im.ui.Activity_Chat_List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,7 +51,6 @@ public class Fragment_TestIM extends BaseFragment {
                 if (i == 0) {
                     switch (user) {
                         case "chen1":
-                            toAct(Activity_Chat_List.class);
                             break;
                         case "chen2":
 
