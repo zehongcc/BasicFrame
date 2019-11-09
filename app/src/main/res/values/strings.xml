@@ -17,5 +17,6 @@
     <string name="jmui_voice_length">10\"</string>
     <string name="jmui_server_803008">消息已发出，但被对方拒收了。</string>
     <string name="jmui_file_not_support_hint">无法打开该类型的文件</string>
+    <string name="item_tag_one">1</string>
 
 </resources>

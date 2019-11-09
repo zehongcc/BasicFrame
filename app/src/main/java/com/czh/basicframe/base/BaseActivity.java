@@ -15,6 +15,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 
+import com.czh.basicframe.https.base.BasePresenter;
+import com.czh.basicframe.https.base.BaseView;
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.LogUtils;
@@ -39,7 +41,7 @@ import static com.czh.basicframe.utils.Code.OPEN_CAMERA;
  * create Date : 2019/8/7  17:25
  * 详情 :
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
 
     protected String TAG;
 
@@ -51,6 +53,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected OnCameraCallback onCameraCallback;
 
+    protected T mPresenter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         init(savedInstanceState);
         main();
     }
+    protected abstract T createPresenter();
 
     protected abstract int setLayout();
 
@@ -74,6 +79,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         toast = ToastUtils.getInstance();
+        //
+        mPresenter = createPresenter();
+        if (mPresenter != null) {
+            mPresenter.acttech(this);
+        }
     }
 
 
@@ -236,7 +246,28 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mPresenter != null) {
+            mPresenter.detach();
+        }
     }
 
+    @Override
+    public void showDialog() {
+//        if (loadingDialog == null) {
+//            loadingDialog = new LoadingDialog(this);
+//        }
+//        loadingDialog.show();
+    }
 
+    @Override
+    public void hideDialog() {
+//        if (loadingDialog != null) {
+//            loadingDialog.dismiss();
+//        }
+    }
+
+    @Override
+    public void onFail(String err, int errCode) {
+        toast.shortToast(err, errCode);
+    }
 }
