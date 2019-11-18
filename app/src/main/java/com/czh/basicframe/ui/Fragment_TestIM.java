@@ -9,8 +9,6 @@ import com.czh.basicframe.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 
 /**
  * create by Chen
@@ -45,19 +43,5 @@ public class Fragment_TestIM extends BaseFragment {
     public void onViewClicked() {
         final String user = imUserEt.getText().toString();
         String password = imPasswordEt.getText().toString();
-        JMessageClient.login(user, password, new BasicCallback() {
-            @Override
-            public void gotResult(int i, String s) {
-                if (i == 0) {
-                    switch (user) {
-                        case "chen1":
-                            break;
-                        case "chen2":
-
-                            break;
-                    }
-                }
-            }
-        });
     }
 }

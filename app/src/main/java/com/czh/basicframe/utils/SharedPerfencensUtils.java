@@ -102,7 +102,7 @@ public class SharedPerfencensUtils {
      */
     private void throwEx() {
         if (sharedPreferences == null || editor == null) {
-            throw new NullPointerException("sharedPreferences is null , init this class in BaseApplication !!!");
+            throw new NullPointerException("sharedPreferences is null , inflateLayout this class in BaseApplication !!!");
         }
     }
 

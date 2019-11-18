@@ -1,4 +1,4 @@
-package com.czh.basicframe.base;
+package com.czh.basicframe.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,35 +15,33 @@ import com.czh.basicframe.widget.dialog.BaseParam;
  * 详情 :
  */
 public abstract class BaseDialog<T extends BaseParam> extends Dialog implements View.OnClickListener {
-    private View mView ;
-    private Context mContext ;
-    private T mParam ;
+    protected String TAG ;
+    protected View mView;
+    protected Context mContext;
 
-    public BaseDialog(@NonNull Context context,T param) {
-        this(context, R.style.dialog,param);
+    protected OnDialogClickListener mClickListener;
+
+    public BaseDialog(@NonNull Context context, T param) {
+        this(context, R.style.dialog, param);
     }
 
-    public BaseDialog(@NonNull Context context, int themeResId,T param) {
+    public BaseDialog(@NonNull Context context, int themeResId, T param) {
         super(context, themeResId);
-        this.mContext = context ;
-        this.mParam = param ;
-        mView = LayoutInflater.from(context).inflate(inflateLayout(),null) ;
-        init(mParam);
+        this.TAG = getClass().getSimpleName();
+        this.mContext = context;
+        this.mClickListener = param.clickListener;
+        mView = LayoutInflater.from(context).inflate(inflateLayout(), null);
+        init(param);
+        setCancelable(param.isCancelable);
+        setCanceledOnTouchOutside(param.isCanceledOnTouchOutside);
         setContentView(mView);
     }
+
     protected abstract int inflateLayout();
 
     protected abstract void init(T param);
 
-    protected OnDialogClickListener mClickListener;
-
     public interface OnDialogClickListener {
         void onClick(View view, int i);
     }
-
-    protected void setOnClickListener(OnDialogClickListener listener) {
-        this.mClickListener = listener;
-    }
-
-
 }

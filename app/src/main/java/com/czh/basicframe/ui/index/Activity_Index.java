@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseActivity;
+import com.czh.basicframe.https.base.BasePresenter;
 
 /**
  * author  : czh
@@ -11,6 +12,11 @@ import com.czh.basicframe.base.BaseActivity;
  * 详情 :
  */
 public class Activity_Index extends BaseActivity {
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
+
     @Override
     protected int setLayout() {
         return R.layout.activity_index;

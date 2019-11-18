@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.czh.basicframe.base.BaseActivity;
 import com.czh.basicframe.db.SQHelper;
+import com.czh.basicframe.https.base.BasePresenter;
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.ui.Fragment_Animation;
 import com.czh.basicframe.ui.Fragment_ConstraintLayout;
@@ -38,6 +39,11 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
     TabLayout tabLayout;
 
     private List<FragmentBean> fragments;
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
 
     @Override
     protected int setLayout() {

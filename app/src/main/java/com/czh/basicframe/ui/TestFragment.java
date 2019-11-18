@@ -1,6 +1,7 @@
 package com.czh.basicframe.ui;
 
 import android.Manifest;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -10,12 +11,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.czh.basicframe.R;
+import com.czh.basicframe.TestDialog;
 import com.czh.basicframe.base.BaseFragment;
 import com.czh.basicframe.interfaces.DialogClickListener;
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.PermissionUtils;
+import com.czh.basicframe.widget.dialog.BaseDialog;
 import com.czh.basicframe.widget.dialog.NormDialog;
 
 import java.io.File;
@@ -40,7 +43,7 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
     @BindView(R.id.btn3)
     Button btn3;
     @BindView(R.id.test_show_tv)
-    TextView showTv ;
+    TextView showTv;
 
     @Override
     protected int setLayout() {
@@ -87,15 +90,11 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
             case R.id.btn3:
                 NormDialog dialog = new NormDialog.Builder(mContext)
                         .setTitle("温馨提示")
+                        .setTitleColor(Color.BLUE)
                         .setContent("确认是否退出登录？")
                         .setOk("ok")
                         .setCancel("cancel")
-                        .setClickListener(new DialogClickListener() {
-                            @Override
-                            public void onClick(View view, int result) {
-                                toast.shortToast(result == 1 ? "OK" : "Cancel");
-                            }
-                        })
+                        .setOnClickListener((view1, result) -> toast.shortToast(result == 1 ? "OK" : "Cancel"))
                         .create();
                 dialog.show();
                 break;

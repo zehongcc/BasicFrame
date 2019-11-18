@@ -1,6 +1,5 @@
 package com.czh.basicframe.widget.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -15,132 +14,106 @@ import com.czh.basicframe.interfaces.DialogClickListener;
  * create Date : 2019/10/24  10:05
  * 详情 : 普通dialog
  */
-public class NormDialog extends Dialog implements View.OnClickListener {
+public class NormDialog extends BaseDialog<NormDialogParameter> {
 
-    private DialogClickListener clickListener;
-
-    private NormDialog(@NonNull Context context, NormDialogParameter parameter) {
-        super(context, R.style.dialog);
-        this.clickListener = parameter.listener;
-        initDialog(parameter);
+    public NormDialog(@NonNull Context context, NormDialogParameter param) {
+        super(context, param);
     }
 
-    private void initDialog(NormDialogParameter parameter) {
-        View view = getLayoutInflater().inflate(R.layout.dialog_norm, null);
-        TextView titleTv = view.findViewById(R.id.dialog_title_tv);
-        TextView contentTv = view.findViewById(R.id.dialog_content_tv);
-        TextView okTv = view.findViewById(R.id.dialog_ok_tv);
-        TextView cancelTv = view.findViewById(R.id.dialog_cancel_tv);
-        View lineView = view.findViewById(R.id.dialog_line_view);
-        if (parameter != null) {
-            if (!TextUtils.isEmpty(parameter.title)) {
-                titleTv.setText(parameter.title);
+    @Override
+    protected int inflateLayout() {
+        return R.layout.dialog_norm;
+    }
+
+    @Override
+    protected void init(NormDialogParameter param) {
+        TextView titleTv = mView.findViewById(R.id.dialog_title_tv);
+        TextView contentTv = mView.findViewById(R.id.dialog_content_tv);
+        TextView okTv = mView.findViewById(R.id.dialog_ok_tv);
+        TextView cancelTv = mView.findViewById(R.id.dialog_cancel_tv);
+        View lineView = mView.findViewById(R.id.dialog_line_view);
+        if (param != null) {
+            if (!TextUtils.isEmpty(param.titleStr)) {
+                titleTv.setText(param.titleStr);
             }
-            if (!TextUtils.isEmpty(parameter.content)) {
-                contentTv.setText(parameter.content);
+            if (!TextUtils.isEmpty(param.contentStr)) {
+                contentTv.setText(param.contentStr);
             }
-            if (!TextUtils.isEmpty(parameter.ok)) {
-                okTv.setText(parameter.ok);
+            if (!TextUtils.isEmpty(param.okStr)) {
+                okTv.setText(param.okStr);
             }
-            if (!TextUtils.isEmpty(parameter.cancel)) {
-                cancelTv.setText(parameter.cancel);
+            if (!TextUtils.isEmpty(param.cancelStr)) {
+                cancelTv.setText(param.cancelStr);
             }
-            if (parameter.isHideCancel) {
+            if (param.isHideCancel) {
                 lineView.setVisibility(View.GONE);
                 cancelTv.setVisibility(View.GONE);
             }
-            titleTv.setTextColor(parameter.titleTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : parameter.titleTvColor);
-            contentTv.setTextColor(parameter.contentTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : parameter.contentTvColor);
-            okTv.setTextColor(parameter.okTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : parameter.okTvColor);
-            cancelTv.setTextColor(parameter.cancelTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : parameter.cancelTvColor);
+            titleTv.setTextColor(param.titleTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : param.titleTvColor);
+            contentTv.setTextColor(param.contentTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : param.contentTvColor);
+            okTv.setTextColor(param.okTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : param.okTvColor);
+            cancelTv.setTextColor(param.cancelTvColor == 0 ? getContext().getResources().getColor(R.color.color_black) : param.cancelTvColor);
         }
         //点击事件
         okTv.setOnClickListener(this);
         cancelTv.setOnClickListener(this);
-        //设置此对话框是否可以通过返回键dismiss()
-        setCancelable(false);
-        setCanceledOnTouchOutside(false);
-        setContentView(view);
-
     }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_ok_tv:
-                if (clickListener != null) {
-                    clickListener.onClick(v, 1);
+                if (mClickListener != null) {
+                    mClickListener.onClick(v, 1);
                 }
                 break;
             case R.id.dialog_cancel_tv:
-                if (clickListener != null) {
-                    clickListener.onClick(v, 2);
+                if (mClickListener != null) {
+                    mClickListener.onClick(v, 2);
                 }
                 break;
         }
         dismiss();
     }
 
-    public static class Builder {
-        private NormDialogParameter parameter = new NormDialogParameter();
-        private Context context;
+    public static class Builder extends BaseBuilder<Builder,NormDialogParameter> {
 
         public Builder(Context context) {
-            this.context = context;
+            super(context);
         }
 
-        public Builder setTitle(String title) {
-            this.parameter.title = title;
-            return this;
-        }
-
-        public Builder setContent(String content) {
-            this.parameter.content = content;
-            return this;
-        }
-
-        public Builder setOk(String ok) {
-            this.parameter.ok = ok;
-            return this;
-        }
-
-        public Builder setCancel(String cancel) {
-            this.parameter.cancel = cancel;
-            return this;
+        @Override
+        protected NormDialogParameter createParam() {
+            return new NormDialogParameter();
         }
 
         public Builder isHideCancel(boolean isHide) {
-            this.parameter.isHideCancel = isHide;
-            return this;
-        }
-
-        public Builder setClickListener(DialogClickListener listener) {
-            parameter.listener = listener;
+            this.mParam.isHideCancel = isHide;
             return this;
         }
 
         public Builder setOkColor(int okColor) {
-            this.parameter.okTvColor = okColor;
+            this.mParam.okTvColor = okColor;
             return this;
         }
-
         public Builder setCancelTvColor(int cancelColor) {
-            this.parameter.cancelTvColor = cancelColor;
+            this.mParam.cancelTvColor = cancelColor;
             return this;
         }
 
         public Builder setTitleColor(int titleColor) {
-            this.parameter.titleTvColor = titleColor;
+            this.mParam.titleTvColor = titleColor;
             return this;
         }
 
         public Builder setContentColor(int contentColor) {
-            this.parameter.contentTvColor = contentColor;
+            this.mParam.contentTvColor = contentColor;
             return this;
         }
 
         public NormDialog create() {
-            NormDialog normDialog = new NormDialog(context, parameter);
+            NormDialog normDialog = new NormDialog(mContext,mParam);
             return normDialog;
         }
     }
