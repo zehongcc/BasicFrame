@@ -53,6 +53,4 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
-    //IM
-    implementation files('libs/universal-image-loader-1.9.5.jar')
 }

@@ -7,8 +7,6 @@ import com.czh.basicframe.utils.CrashHandler;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.SharedPerfencensUtils;
 
-import cn.jpush.im.android.api.JMessageClient;
-
 /**
  * author  : czh
  * create Date : 2019/8/8  11:02
@@ -29,9 +27,6 @@ public class BaseApplication extends Application {
         LogUtils.setIsDebug(true);
         SharedPerfencensUtils.getInstance().init(this);
         CrashHandler.getInstance().init(this);
-        //极光IM
-        JMessageClient.setDebugMode(true);
-        JMessageClient.init(this);
     }
 
 }

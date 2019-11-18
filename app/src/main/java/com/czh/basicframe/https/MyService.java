@@ -1,5 +1,10 @@
 package com.czh.basicframe.https;
 
+import com.czh.basicframe.https.base.BaseBean;
+import com.czh.basicframe.https.mvp_eg.TestBean;
+
+import io.reactivex.Observable;
+
 /**
  * author  : czh
  * create Date : 2019/10/22  11:54
@@ -39,5 +44,7 @@ public interface MyService {
      *
      **/
 
+
+    Observable<BaseBean<TestBean>> test();
 
 }
