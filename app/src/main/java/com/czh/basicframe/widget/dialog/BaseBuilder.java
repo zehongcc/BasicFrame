@@ -2,8 +2,6 @@ package com.czh.basicframe.widget.dialog;
 
 import android.content.Context;
 
-import com.czh.basicframe.TestDialog;
-
 /**
  * create by Chen
  * create date : 2019/11/18

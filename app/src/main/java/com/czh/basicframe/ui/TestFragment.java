@@ -3,7 +3,6 @@ package com.czh.basicframe.ui;
 import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,14 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.czh.basicframe.R;
-import com.czh.basicframe.TestDialog;
 import com.czh.basicframe.base.BaseFragment;
-import com.czh.basicframe.interfaces.DialogClickListener;
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.PermissionUtils;
-import com.czh.basicframe.widget.dialog.BaseDialog;
 import com.czh.basicframe.widget.dialog.NormDialog;
 
 import java.io.File;
@@ -56,7 +52,9 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
 
     @Override
     protected void main() {
+
     }
+
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5})
     public void onViewClicked(View view) {

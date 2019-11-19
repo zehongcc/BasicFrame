@@ -1,25 +1,20 @@
 package com.czh.basicframe;
 
 import android.Manifest;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import com.czh.basicframe.base.BaseActivity;
-import com.czh.basicframe.db.SQHelper;
 import com.czh.basicframe.https.base.BasePresenter;
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.ui.Fragment_Animation;
 import com.czh.basicframe.ui.Fragment_ConstraintLayout;
-import com.czh.basicframe.ui.Fragment_TestIM;
 import com.czh.basicframe.ui.Fragment_Test_DB;
 import com.czh.basicframe.ui.TestFragment;
+import com.czh.basicframe.ui.VoiceFragment;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.PermissionUtils;
@@ -29,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements OnCameraCallback {
 
@@ -54,7 +48,7 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
     @Override
     protected void init(Bundle savedInstanceState) {
         fragments = new ArrayList<>();
-        fragments.add(new FragmentBean("IM测试", false, new Fragment_TestIM()));
+        fragments.add(new FragmentBean("语音对讲", false, new VoiceFragment()));
         fragments.add(new FragmentBean("Test", false, new TestFragment()));
         fragments.add(new FragmentBean("db", false, new Fragment_Test_DB()));
         fragments.add(new FragmentBean("动画", false, new Fragment_Animation()));
