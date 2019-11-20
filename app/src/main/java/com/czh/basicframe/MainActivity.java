@@ -13,6 +13,7 @@ import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.ui.Fragment_Animation;
 import com.czh.basicframe.ui.Fragment_ConstraintLayout;
 import com.czh.basicframe.ui.Fragment_Test_DB;
+import com.czh.basicframe.ui.Fragment_Update;
 import com.czh.basicframe.ui.TestFragment;
 import com.czh.basicframe.ui.VoiceFragment;
 import com.czh.basicframe.utils.EventBean;
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
     @Override
     protected void init(Bundle savedInstanceState) {
         fragments = new ArrayList<>();
+        fragments.add(new FragmentBean("应用更新", false, new Fragment_Update()));
         fragments.add(new FragmentBean("语音对讲", false, new VoiceFragment()));
         fragments.add(new FragmentBean("Test", false, new TestFragment()));
         fragments.add(new FragmentBean("db", false, new Fragment_Test_DB()));

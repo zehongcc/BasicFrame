@@ -50,12 +50,12 @@
 
     <TextView
         android:id="@+id/state_tv"
-        app:layout_constraintBottom_toBottomOf="@id/btn3"
-        app:layout_constraintTop_toTopOf="@id/btn3"
-        app:layout_constraintLeft_toRightOf="@id/btn3"
-        android:text="状态"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="状态"
+        app:layout_constraintBottom_toBottomOf="@id/btn3"
+        app:layout_constraintLeft_toRightOf="@id/btn3"
+        app:layout_constraintTop_toTopOf="@id/btn3" />
 
     <Button
         android:id="@+id/btn4"
@@ -64,5 +64,17 @@
         android:text="发送数据"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn3" />
+
+    <EditText
+        android:id="@+id/toip_et"
+        android:layout_marginLeft="10dp"
+        android:layout_width="0dp"
+        android:inputType="number"
+        android:digits="1234567890.:"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/btn4"
+        app:layout_constraintLeft_toRightOf="@id/btn4"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn4" />
 
 </android.support.constraint.ConstraintLayout>
