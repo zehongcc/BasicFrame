@@ -14,4 +14,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.czh.basicframe.widget.NinePicImageView
+        android:layout_marginTop="40dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn1" />
+
 </android.support.constraint.ConstraintLayout>
