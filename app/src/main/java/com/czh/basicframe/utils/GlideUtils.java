@@ -24,4 +24,8 @@ public class GlideUtils {
         Glide.with(BaseApplication.getContext()).load(object).apply(options).into(imageView);
     }
 
+    public static void clear(ImageView imageView){
+        Glide.with(BaseApplication.getContext()).clear(imageView);
+    }
+
 }

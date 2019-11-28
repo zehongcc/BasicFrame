@@ -1,6 +1,5 @@
 package com.czh.basicframe.ui;
 
-import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +12,6 @@ import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseFragment;
 import com.czh.basicframe.interfaces.OnCameraCallback;
 import com.czh.basicframe.utils.EventBean;
-import com.czh.basicframe.utils.LogUtils;
-import com.czh.basicframe.utils.PermissionUtils;
 import com.czh.basicframe.widget.dialog.NormDialog;
 
 import java.io.File;
@@ -56,34 +53,16 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
     }
 
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5,R.id.btn6})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn1:
-                PermissionUtils.getInstance().checkPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 220, new PermissionUtils.OnPermissionCallBack() {
-                    @Override
-                    public void requestPermissionCallBack(boolean isSuccess, int requestCode) {
-                        LogUtils.d("请求权限" + isSuccess + " , 请求码：" + requestCode);
-                        if (isSuccess) {
-                            //打开相册
-                            openAlbum(TestFragment.this);
-                        }
-                    }
-                });
+                //打开相册
+                openAlbum(TestFragment.this);
                 break;
             case R.id.btn2:
-                PermissionUtils.getInstance().checkPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 220, new PermissionUtils.OnPermissionCallBack() {
-                    @Override
-                    public void requestPermissionCallBack(boolean isSuccess, int requestCode) {
-                        LogUtils.d("请求权限" + isSuccess + " , 请求码：" + requestCode);
-                        if (isSuccess) {
-                            //打开相机
-                            openCamera(TestFragment.this);
-                        }
-                    }
-                });
+                //打开相机
+                openCamera(TestFragment.this);
                 break;
             case R.id.btn3:
                 NormDialog dialog = new NormDialog.Builder(mContext)
@@ -102,10 +81,14 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
                 String s = loadFromSDFile();
                 showTv.setText(s);
                 break;
+            case R.id.btn6:
+//                toAct(Activity_Test.class);
+                break;
             default:
                 break;
         }
     }
+
 
     private String loadFromSDFile() {
         String result = null;

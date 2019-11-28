@@ -1,6 +1,5 @@
 package com.czh.basicframe;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,7 +8,7 @@ import android.widget.FrameLayout;
 
 import com.czh.basicframe.base.BaseActivity;
 import com.czh.basicframe.https.base.BasePresenter;
-import com.czh.basicframe.interfaces.OnCameraCallback;
+import com.czh.basicframe.ui.Fragment_1;
 import com.czh.basicframe.ui.Fragment_Animation;
 import com.czh.basicframe.ui.Fragment_ConstraintLayout;
 import com.czh.basicframe.ui.Fragment_Test_DB;
@@ -18,15 +17,13 @@ import com.czh.basicframe.ui.TestFragment;
 import com.czh.basicframe.ui.VoiceFragment;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.LogUtils;
-import com.czh.basicframe.utils.PermissionUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements OnCameraCallback {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
@@ -48,7 +45,10 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        setIsBackAble(true);//开启双击退出程序
         fragments = new ArrayList<>();
+        fragments.add(new FragmentBean("图片", false, new Fragment_1()));
+        fragments.add(new FragmentBean("音频管理", false, new Fragment_Update()));
         fragments.add(new FragmentBean("应用更新", false, new Fragment_Update()));
         fragments.add(new FragmentBean("语音对讲", false, new VoiceFragment()));
         fragments.add(new FragmentBean("Test", false, new TestFragment()));
@@ -104,41 +104,12 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
         transaction.commit();
     }
 
-    //请求权限
-    public void toRequest() {
-        PermissionUtils.getInstance().checkPermissions(this, new String[]{Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO}, 110, new PermissionUtils.OnPermissionCallBack() {
-            @Override
-            public void requestPermissionCallBack(boolean isSuccess, int requestCode) {
-                LogUtils.d("请求权限" + isSuccess + " , 请求码：" + requestCode);
-            }
-        });
-    }
-
-
     @Override
     public void onEventBus(EventBean object) {
         super.onEventBus(object);
         if (object == null) return;
         String content = (String) object.getObject();
         int tag = object.getTag();
-    }
-
-    @Override
-    public void onCameraCallBack(File file) {
-        //相机拍照回调
-    }
-
-    @Override
-    public void onAblumCallBack(File file) {
-        //相册获取图片回调
-    }
-
-    @Override
-    public void onFail() {
-        //相机或者相册获取失败/取消
-        LogUtils.e(TAG, ">>>> 相机或者相册获取失败/取消 >>>> ");
-
     }
 
 

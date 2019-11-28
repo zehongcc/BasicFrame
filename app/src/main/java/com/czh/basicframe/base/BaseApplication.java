@@ -6,6 +6,7 @@ import android.content.Context;
 import com.czh.basicframe.utils.CrashHandler;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.SharedPerfencensUtils;
+import com.zxy.tiny.Tiny;
 
 /**
  * author  : czh
@@ -27,6 +28,7 @@ public class BaseApplication extends Application {
         LogUtils.setIsDebug(true);
         SharedPerfencensUtils.getInstance().init(this);
         CrashHandler.getInstance().init(this);
+        Tiny.getInstance().debug(true);
     }
 
 }

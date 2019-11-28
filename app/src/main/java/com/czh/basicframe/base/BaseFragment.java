@@ -1,5 +1,6 @@
 package com.czh.basicframe.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -99,6 +99,7 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 带参数跳转界面
+     *
      * @param bundle
      * @param cls
      */
@@ -126,48 +127,69 @@ public abstract class BaseFragment extends Fragment {
      * 打开相机
      */
     private File photoFile;//相机拍摄的文件
-
+    private Uri picUri = null;//相机拍摄的Uri文件
     protected OnCameraCallback onCameraCallback;
 
     protected void openCamera(OnCameraCallback callback) {
-        this.onCameraCallback = callback;
-        File pathFile = new File(Environment.getExternalStorageDirectory(), "照相");
-        if (!pathFile.exists()) {
-            pathFile.mkdir();
-        }
-        photoFile = new File(pathFile, "photo.jpg");
-        if (photoFile.exists()) {
-            photoFile.delete();
-        }
-        try {
-            boolean b = photoFile.createNewFile();
-//            LogUtils.e(TAG, "相机创建新文件是否成功 = " + b);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Uri picUri = null;
-        if (Build.VERSION.SDK_INT >= 24) {
-            picUri = FileProvider.getUriForFile(BaseApplication.getContext(),
-                    BaseApplication.getContext().getPackageName() + ".FileProvider", photoFile);
-        } else {
-            picUri = Uri.fromFile(photoFile);
-        }
-        LogUtils.e(TAG, "【相机创建的Uri】 = " + picUri);
-        this.startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        .putExtra(MediaStore.EXTRA_OUTPUT, picUri),
-                Code.OPEN_CAMERA_F);
+        PermissionUtils.getInstance().checkPermissions(mActivity, new String[]{Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                991, new PermissionUtils.OnPermissionCallBack() {
+                    @Override
+                    public void requestPermissionCallBack(boolean isSuccess, int requestCode) {
+                        if (!isSuccess) {
+                            toast.shortToast("请打开相关权限");
+                            return;
+                        }
+                        onCameraCallback = callback;
+                        File pathFile = new File(mContext.getExternalCacheDir(), "拍摄");
+                        if (!pathFile.exists()) {
+                            pathFile.mkdir();
+                        }
+                        photoFile = new File(pathFile, System.currentTimeMillis() + ".jpg");
+                        if (photoFile.exists()) {
+                            photoFile.delete();
+                        }
+                        try {
+                            boolean b = photoFile.createNewFile();
+                            LogUtils.e(TAG, "相机创建新文件是否成功 = " + b);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        picUri = null ;
+                        if (Build.VERSION.SDK_INT >= 24) {
+                            picUri = FileProvider.getUriForFile(BaseApplication.getContext(),
+                                    BaseApplication.getContext().getPackageName() + ".FileProvider", photoFile);
+                        } else {
+                            picUri = Uri.fromFile(photoFile);
+                        }
+//                        LogUtils.e(TAG, "【相机创建的Uri】 = " + picUri);
+                        BaseFragment.this.startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                                        .putExtra(MediaStore.EXTRA_OUTPUT, picUri),
+                                Code.OPEN_CAMERA_F);
+
+                    }
+                });
     }
 
     /**
      * 打开相册
      */
     protected void openAlbum(OnCameraCallback callback) {
-        this.onCameraCallback = callback;
-        this.startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"), Code.OPEN_ALBUM_F);
+        PermissionUtils.getInstance().checkPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE}, 992, new PermissionUtils.OnPermissionCallBack() {
+            @Override
+            public void requestPermissionCallBack(boolean isSuccess, int requestCode) {
+                if (isSuccess) {
+                    BaseFragment.this.onCameraCallback = callback;
+                    BaseFragment.this.startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"),
+                            Code.OPEN_ALBUM_F);
+                }
+            }
+        });
     }
 
     public File getPictureFile(Uri uri) {
-        LogUtils.e("getPictureFile == " + uri.toString());
+//        LogUtils.e("getPictureFile == " + uri.toString());
         try {
             if (uri != null) {
                 String s = uri.toString().split(":")[0];
@@ -184,12 +206,14 @@ public abstract class BaseFragment extends Fragment {
                 }
             }
         } catch (URISyntaxException e) {
-            LogUtils.e("Tools", "获取图图片出现异常");
+//            LogUtils.e("Tools", "获取图图片出现异常");
             e.printStackTrace();
         }
-        LogUtils.e("Tools", "图库图片Uri空值");
+//        LogUtils.e("Tools", "图库图片Uri空值");
         return null;
     }
+
+
 
 
     @Override
@@ -197,11 +221,15 @@ public abstract class BaseFragment extends Fragment {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Code.OPEN_CAMERA_F://相机回调
-                    if (onCameraCallback != null) onCameraCallback.onCameraCallBack(photoFile);
+                    if (onCameraCallback != null) {
+                        onCameraCallback.onCameraCallBack(photoFile);
+                    }
                     break;
                 case Code.OPEN_ALBUM_F://相册回调
-                    if (onCameraCallback != null)
-                        onCameraCallback.onAblumCallBack(getPictureFile(data.getData()));
+                    if (onCameraCallback != null){
+                        Uri uri = data.getData();
+                        onCameraCallback.onAblumCallBack(getPictureFile(uri));
+                    }
                     break;
             }
         } else {

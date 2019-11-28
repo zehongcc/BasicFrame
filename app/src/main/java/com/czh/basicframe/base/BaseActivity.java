@@ -64,6 +64,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         init(savedInstanceState);
         main();
     }
+
     protected abstract T createPresenter();
 
     protected abstract int setLayout();
@@ -99,6 +100,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     /**
      * 带参数跳转界面
+     *
      * @param bundle
      * @param cls
      */
@@ -107,7 +109,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         intent.putExtra("bundle", bundle);
         mContext.startActivity(intent);
     }
-
 
 
     @Override
@@ -154,7 +155,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                     LogUtils.e(TAG, "【相机创建的Uri】 = " + picUri);
                     startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                             .putExtra(MediaStore.EXTRA_OUTPUT, picUri), OPEN_CAMERA);
-                }else {
+                } else {
                     toast.shortToast("无法打开相机，请开启相关权限");
                 }
             }
@@ -172,7 +173,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 if (isSuccess) {
                     onCameraCallback = callback;
                     startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/*"), OPEN_ALBUM);
-                }else {
+                } else {
                     toast.shortToast("无法打开相册，请开启相关权限");
                 }
             }
@@ -251,6 +252,32 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
     }
 
+    private long firstPressedTime = 0L;
+
+    @Override
+    public void onBackPressed() {
+        if (isAble) {
+            long pressedTime = System.currentTimeMillis();
+            if (pressedTime - firstPressedTime > 2000) {
+                toast.shortToast("再按一次退出程序");
+                firstPressedTime = pressedTime;
+            }else {
+                System.exit(0);
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    /**
+     * 设置是否双击退出
+     */
+    private boolean isAble;
+
+    protected void setIsBackAble(boolean isAble) {
+        this.isAble = isAble;
+    }
+
     @Override
     public void showDialog() {
 //        if (loadingDialog == null) {
@@ -270,4 +297,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void onFail(String err, int errCode) {
         toast.shortToast(err, errCode);
     }
+
+
 }
