@@ -1,9 +1,11 @@
 package com.czh.basicframe.ui;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +36,7 @@ public class Fragment_1 extends BaseFragment {
     @BindView(R.id.btn3)
     Button btn3;
     @BindView(R.id.btn4)
-    Button btn4;
+    CheckBox btn4;
     @BindView(R.id.tv1)
     TextView tv1;
     @BindView(R.id.tv2)
@@ -43,6 +45,7 @@ public class Fragment_1 extends BaseFragment {
     ImageView picIv1;
     @BindView(R.id.pic_iv2)
     ImageView picIv2;
+    private boolean isCrop ;
 
     @Override
     protected int setLayout() {
@@ -51,7 +54,12 @@ public class Fragment_1 extends BaseFragment {
 
     @Override
     protected void initValue(Bundle bundle) {
-
+        btn4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCrop = isChecked ;
+            }
+        });
     }
 
     @Override
@@ -60,22 +68,22 @@ public class Fragment_1 extends BaseFragment {
     }
 
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn1://拍照
-                openCamera(cameraCallback);
+                openCamera(cameraCallback,isCrop);
                 break;
             case R.id.btn2://相册
-                openAlbum(cameraCallback);
+                openAlbum(cameraCallback,isCrop);
                 break;
             case R.id.btn3://压缩
                 tiny();
                 break;
-            case R.id.btn4://裁剪
-                break;
         }
     }
+
+
     /**
      * tiny压缩
      */
@@ -99,7 +107,6 @@ public class Fragment_1 extends BaseFragment {
      * 拍照相机回调
      */
     private File sourcePicFile;
-    private Uri sourceUri ;
     private OnCameraCallback cameraCallback = new OnCameraCallback() {
         @Override
         public void onCameraCallBack(File file) {
@@ -114,6 +121,12 @@ public class Fragment_1 extends BaseFragment {
             GlideUtils.load(file, picIv1);
             tv1.setText("原图(" + FileUtils.getInstance().getFileSize(file) + ")");
         }
+
+        @Override
+        public void onCrop(Bitmap bitmap) {
+            GlideUtils.load(bitmap, picIv2);
+        }
+
 
         @Override
         public void onFail() {

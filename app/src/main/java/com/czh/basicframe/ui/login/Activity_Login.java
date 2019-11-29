@@ -6,14 +6,13 @@ import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseActivity;
 import com.czh.basicframe.https.base.BasePresenter;
 
-import java.util.Random;
-
 /**
  * author  : czh
  * create Date : 2019/10/26  9:27
  * 详情 :
  */
 public class Activity_Login extends BaseActivity {
+
 
     @Override
     protected BasePresenter createPresenter() {
@@ -33,5 +32,6 @@ public class Activity_Login extends BaseActivity {
     protected void main() {
 
     }
+
 
 }

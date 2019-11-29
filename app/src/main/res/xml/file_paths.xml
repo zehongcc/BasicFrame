@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <root-path path="" name="."/>
-    <external-path name="sdcard" path="" />
-</paths>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <paths>
+        <root-path
+            name="root"
+            path="" />
+        <!--&lt;!&ndash;当path是“.”时代表所有路径&ndash;&gt;-->
+        <!--&lt;!&ndash;对应路径： Context.getFilesDir() + /{path} &ndash;&gt;-->
+        <!--<files-path-->
+        <!--name="file_dir"-->
+        <!--path="." />-->
+        <!--&lt;!&ndash;对应路径： Context.getCacheDir() + /{path} &ndash;&gt;-->
+        <!--<cache-path-->
+        <!--name="cache_dir"-->
+        <!--path="." />-->
+        <!--&lt;!&ndash;对应路径： Context.getExternalCacheDir() + /{path} &ndash;&gt;-->
+        <!--<external-cache-path-->
+        <!--name="external_cache"-->
+        <!--path="." />-->
+        <!--&lt;!&ndash;对应路径： Context.getExternalFilesDir() + /{path} &ndash;&gt;-->
+        <!--<external-files-path-->
+        <!--name="external_file"-->
+        <!--path="." />-->
+        <!--对应路径： Environment.getExternalStorageDirectory() + /{path} -->
+        <!--<external-path-->
+        <!--name="external_files"-->
+        <!--path="." />-->
+    </paths>
+</resources>

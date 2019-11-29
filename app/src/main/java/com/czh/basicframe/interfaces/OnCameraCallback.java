@@ -1,5 +1,7 @@
 package com.czh.basicframe.interfaces;
 
+import android.graphics.Bitmap;
+
 import java.io.File;
 
 /**
@@ -18,6 +20,12 @@ public interface OnCameraCallback {
      * 相册回调
      */
     void onAblumCallBack(File file);
+
+    /**
+     * 裁剪回调
+     * @param bitmap
+     */
+    void onCrop(Bitmap bitmap);
 
     /**
      * onActivityResult 返回错误

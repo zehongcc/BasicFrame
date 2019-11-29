@@ -1,5 +1,6 @@
 package com.czh.basicframe.ui;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -58,11 +59,11 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
         switch (view.getId()) {
             case R.id.btn1:
                 //打开相册
-                openAlbum(TestFragment.this);
+                openAlbum(TestFragment.this,false);
                 break;
             case R.id.btn2:
                 //打开相机
-                openCamera(TestFragment.this);
+                openCamera(TestFragment.this,false);
                 break;
             case R.id.btn3:
                 NormDialog dialog = new NormDialog.Builder(mContext)
@@ -82,7 +83,6 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
                 showTv.setText(s);
                 break;
             case R.id.btn6:
-//                toAct(Activity_Test.class);
                 break;
             default:
                 break;
@@ -120,6 +120,10 @@ public class TestFragment extends BaseFragment implements OnCameraCallback {
     @Override
     public void onAblumCallBack(File file) {
         Glide.with(this).load(file).into(fragmentIv);
+    }
+
+    @Override
+    public void onCrop(Bitmap bitmap) {
     }
 
     @Override
