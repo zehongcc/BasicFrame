@@ -1,34 +1,29 @@
 package com.czh.basicframe.ui;
 
-import android.Manifest;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
 import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseFragment;
-import com.czh.basicframe.utils.PermissionUtils;
 import com.czh.basicframe.widget.NinePicImageView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * create by Chen
  * create date : 2019/11/20
  * desc :
  */
-public class Fragment_Update extends BaseFragment {
+public class Fragment_3 extends BaseFragment {
 
     @BindView(R.id.btn1)
     Button btn1;
@@ -39,7 +34,7 @@ public class Fragment_Update extends BaseFragment {
 
     @Override
     protected int setLayout() {
-        return R.layout.fragment_update;
+        return R.layout.fragment_3;
     }
 
     @Override
@@ -49,20 +44,11 @@ public class Fragment_Update extends BaseFragment {
 
     @Override
     protected void main() {
-
-        nineRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
-        nineRecyclerView.setAdapter(new TestAdapter(mContext));
     }
 
-    private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @OnClick(R.id.btn1)
     public void onViewClicked() {
-//        PermissionUtils.getInstance().checkPermissions(mActivity, permissions, 111, (isSuccess, requestCode) -> {
-//            if (isSuccess){
-//                toast.shortToast("开始更新");
-//            }
-//        });
         List<String> test = new ArrayList<>();
         test.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1671398372,3381203579&fm=26&gp=0.jpg");
         test.add("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3998889803,535011003&fm=26&gp=0.jpg");
@@ -74,6 +60,35 @@ public class Fragment_Update extends BaseFragment {
         test.add("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3551856573,95373944&fm=26&gp=0.jpg");
         test.add("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2106686232,3200710859&fm=26&gp=0.jpg");
         test.add("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1671398372,3381203579&fm=26&gp=0.jpg");
-        ninePicImageView.setUrls(test);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<File> files = new ArrayList<>();
+                for (int i = 0; i < test.size(); i++) {
+                    FutureTarget<File> target = Glide.with(mContext)
+                            .asFile()
+                            .load(test.get(i))
+                            .submit();
+                    try {
+                        final File imageFile = target.get();
+                        files.add(imageFile);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                //文件转完 -- 在主线程更新
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ninePicImageView.setUrls(files);
+                    }
+                });
+            }
+        }).start();
+
+        ///
+        nineRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+        nineRecyclerView.setAdapter(new TestAdapter(mContext));
     }
 }

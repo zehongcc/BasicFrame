@@ -96,7 +96,7 @@ public class Fragment_1 extends BaseFragment {
                 if (isSuccess) {
                     File file = new File(outfile);
                     GlideUtils.load(file, picIv2);
-                    tv2.setText("处理后(" + FileUtils.getInstance().getFileSize(file) + ")");
+                    tv2.setText("压缩后(" + FileUtils.getInstance().getFileSize(file) + ")");
                 }
             }
         });
@@ -124,6 +124,7 @@ public class Fragment_1 extends BaseFragment {
 
         @Override
         public void onCrop(Bitmap bitmap) {
+            tv2.setText("裁剪后(" + FileUtils.getInstance().getBitmapSize(bitmap) + ")");
             GlideUtils.load(bitmap, picIv2);
         }
 

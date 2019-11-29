@@ -9,10 +9,11 @@ import android.widget.FrameLayout;
 import com.czh.basicframe.base.BaseActivity;
 import com.czh.basicframe.https.base.BasePresenter;
 import com.czh.basicframe.ui.Fragment_1;
+import com.czh.basicframe.ui.Fragment_2;
 import com.czh.basicframe.ui.Fragment_Animation;
 import com.czh.basicframe.ui.Fragment_ConstraintLayout;
 import com.czh.basicframe.ui.Fragment_Test_DB;
-import com.czh.basicframe.ui.Fragment_Update;
+import com.czh.basicframe.ui.Fragment_3;
 import com.czh.basicframe.ui.TestFragment;
 import com.czh.basicframe.ui.VoiceFragment;
 import com.czh.basicframe.utils.EventBean;
@@ -48,8 +49,8 @@ public class MainActivity extends BaseActivity {
         setIsBackAble(true);//开启双击退出程序
         fragments = new ArrayList<>();
         fragments.add(new FragmentBean("图片", false, new Fragment_1()));
-        fragments.add(new FragmentBean("音频管理", false, new Fragment_Update()));
-        fragments.add(new FragmentBean("应用更新", false, new Fragment_Update()));
+        fragments.add(new FragmentBean("音频管理", false, new Fragment_2()));
+        fragments.add(new FragmentBean("自定义View", false, new Fragment_3()));
         fragments.add(new FragmentBean("语音对讲", false, new VoiceFragment()));
         fragments.add(new FragmentBean("Test", false, new TestFragment()));
         fragments.add(new FragmentBean("db", false, new Fragment_Test_DB()));

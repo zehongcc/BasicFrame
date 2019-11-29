@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
 import com.czh.basicframe.R;
 import com.czh.basicframe.utils.DensityUtil;
 import com.czh.basicframe.utils.LogUtils;
@@ -100,7 +98,7 @@ public class NinePicImageView extends View {
         if (bitmapList == null || bitmapList.size() == 0) {
             return;
         }
-        //绘制头像
+        //绘制头像 -- 会根据 RectF的规定大小做缩放。
         int size = bitmapList.size();
         switch (size) {
             case 1:
@@ -232,37 +230,44 @@ public class NinePicImageView extends View {
 
     /**
      * 设置数据源
-     *
-     * @param urls
      */
-    public void setUrls(List<String> urls) {
-        if (urls == null || urls.size() == 0) {
-            //没有头像的情况..
-            return;
-        }
-        List<File> files = new ArrayList<>();
-        //有头像的情况
-        long startTime = System.currentTimeMillis();
-        new Thread(() -> {
-            for (int i = 0; i < urls.size(); i++) {
-                FutureTarget<File> target = Glide.with(mContext)
-                        .asFile()
-                        .load(urls.get(i))
-                        .submit();
-                try {
-                    final File imageFile = target.get();
-                    files.add(imageFile);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            initPicWidthAndHeight(files);
-            long endTime = System.currentTimeMillis();
-            LogUtils.e(TAG, ">>>>>>>>>>> " + (endTime - startTime) + "ms" + " ,,, " + files.size());
-        }).start();
+//    //这个发现在列表当中出现复用问题
+//    public void setUrls(List<String> urls) {
+//        if (urls == null || urls.size() == 0) {
+//            //没有头像的情况..
+//            return;
+//        }
+//        List<File> files = new ArrayList<>();
+//        //有头像的情况
+//        long startTime = System.currentTimeMillis();
+//        new Thread(() -> {
+//            for (int i = 0; i < urls.size(); i++) {
+//                FutureTarget<File> target = Glide.with(mContext)
+//                        .asFile()
+//                        .load(urls.get(i))
+//                        .submit();
+//                try {
+//                    final File imageFile = target.get();
+//                    files.add(imageFile);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            initPicWidthAndHeight(files);
+//            long endTime = System.currentTimeMillis();
+//            LogUtils.e(TAG, ">>>>>>>>>>> " + (endTime - startTime) + "ms" + " ,,, " + files.size());
+//        }).start();
+//    }
+
+    public void setUrls(List<File> list) {
+        if (list == null || list.size() == 0) return;
+        initPicWidthAndHeight(list);
     }
 
     private List<Bitmap> bitmapList = new ArrayList<>();
+
+
+
 
     /**
      * 初始头像宽高
@@ -300,6 +305,7 @@ public class NinePicImageView extends View {
 //            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, mPicWidth, mPicHeight, true);//缩放
             bitmapList.add(bitmap);
         }
+//        postInvalidate();
         invalidate();
     }
 }

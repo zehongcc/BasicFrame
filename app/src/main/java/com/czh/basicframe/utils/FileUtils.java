@@ -2,6 +2,7 @@ package com.czh.basicframe.utils;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -23,6 +24,7 @@ public class FileUtils {
     public static FileUtils getInstance() {
         return FileUtilsHolder.instance;
     }
+
 
     private static class FileUtilsHolder {
         private static final FileUtils instance = new FileUtils();
@@ -53,6 +55,32 @@ public class FileUtils {
         }
         return size;
     }
+
+    /**
+     * 获取图片大小
+     * @param bitmap
+     * @return
+     */
+    public String getBitmapSize(Bitmap bitmap) {
+        String size = "0B";
+        if (bitmap == null){
+            return size ;
+        }
+        int allocationByteCount = bitmap.getAllocationByteCount();
+        DecimalFormat df = new DecimalFormat("#.00");
+//        LogUtils.e(TAG,">>>> 文件大小 >>> "+length);
+        if (allocationByteCount < 1024) {
+            size = df.format((double) allocationByteCount) + B;
+        } else if (allocationByteCount < 1048576) {
+            size = df.format((double) allocationByteCount / 1024) + KB;
+        } else if (allocationByteCount < 1073741824) {
+            size = df.format((double) allocationByteCount / 1048576) + MB;
+        } else {
+            size = df.format((double) allocationByteCount / 1073741824) + G;
+        }
+        return size;
+    }
+
 
     /**
      * user转换为file文件

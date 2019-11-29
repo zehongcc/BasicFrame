@@ -276,8 +276,8 @@ public abstract class BaseFragment extends Fragment {
                     }
                     break;
                 case Code.CROP_PIC:
-                    LogUtils.e(TAG, "裁剪成功返回的数据: ");
-////                     TODO: 2019/11/29  way1 -- AV画质 有待处理
+//                    LogUtils.e(TAG, "裁剪成功返回的数据: ");
+////                     TODO: 2019/11/29  way1
 ////                     intent.putExtra("return-data", true);//设置为true时候使用
 //                    if (onCameraCallback != null) {
 //                        Bundle bundle = data.getExtras();
