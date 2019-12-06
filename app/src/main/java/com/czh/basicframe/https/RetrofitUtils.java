@@ -51,7 +51,7 @@ public class RetrofitUtils {
 //        File cacheFile = new File(BaseApplication.getContext().getExternalCacheDir(), "http_cache");
 //        long cacheSize = 10 * 1024 * 1024;//10M缓存空间
 //        Cache cache = new Cache(cacheFile, cacheSize);
-        // TODO: 2019/11/6 感觉这个缓存设置下去对token的请求有致命影响
+        // TODO: 2019/11/6 这个缓存设置下去对token的请求有影响
         OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .connectTimeout(30, TimeUnit.SECONDS)

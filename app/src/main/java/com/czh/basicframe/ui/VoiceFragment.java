@@ -4,10 +4,9 @@ import android.Manifest;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,7 +17,6 @@ import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.PermissionUtils;
 import com.czh.basicframe.utils.Tools;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,13 +27,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * create by Chen
@@ -59,6 +53,8 @@ public class VoiceFragment extends BaseFragment {
     TextView stateTv;
     @BindView(R.id.toip_et)
     EditText toIpEt;
+    @BindView(R.id.voice_tv)
+    TextView voiceTv;
 
     private MediaRecorder mediaRecorder;
     private boolean isStarting;
@@ -124,7 +120,7 @@ public class VoiceFragment extends BaseFragment {
         try {
             InetAddress address = InetAddress.getByName(split[0]);
             LogUtils.e(TAG, ">????????????? >>> " + address.getHostAddress() + " , "
-                    + address.getHostName() + " , " + address.getCanonicalHostName() +" , "+split[1]);
+                    + address.getHostName() + " , " + address.getCanonicalHostName() + " , " + split[1]);
 //            InetAddress address = InetAddress.getByName("localhost");
             byte[] bytes = getBytes(voiceFile.getAbsolutePath());
             //创建数据报
@@ -274,6 +270,12 @@ public class VoiceFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopRecord();
+    }
+
     /**
      * 停止录音
      */
@@ -285,6 +287,9 @@ public class VoiceFragment extends BaseFragment {
         }
         if (voiceFile != null) {
             filePathTv.setText(voiceFile.getAbsolutePath());
+        }
+        if (handler!= null){
+            handler.removeCallbacks(runnable);
         }
     }
 
@@ -315,10 +320,29 @@ public class VoiceFragment extends BaseFragment {
             try {
                 mediaRecorder.prepare();//准备就绪
                 mediaRecorder.start();//开始录制
+                updateVoiceStatus();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private Handler handler = new Handler() ;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            updateVoiceStatus();
+        }
+    };
+
+    private void updateVoiceStatus() {
+        if (mediaRecorder!= null){
+            double ratio = mediaRecorder.getMaxAmplitude() / 1 ;
+            double db = 0 ;
+            if (ratio>1)
+                db = 20 * Math.log10(ratio);
+            voiceTv.setText(""+db);
+            handler.postDelayed(runnable,100) ;
+        }
+    }
 }

@@ -26,11 +26,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="压缩" />
+
+        <Button
+            android:id="@+id/btn5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自定义相机" />
         <CheckBox
             android:id="@+id/btn4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="裁剪" />
+
+        <TextView
+            android:id="@+id/test_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
