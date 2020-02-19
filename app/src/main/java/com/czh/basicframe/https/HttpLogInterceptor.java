@@ -1,5 +1,6 @@
 package com.czh.basicframe.https;
 
+
 import com.czh.basicframe.utils.LogUtils;
 
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class HttpLogInterceptor implements Interceptor {
         }
         rBody = buffer.clone().readString(charset);
 
-        LogUtils.i("【响应码】" + response.code() + "\n"
+        LogUtils.e("【响应码】" + response.code() + "\n"
                 + "【请求头】：" + request.headers() + ""
                 + "【方法】：" + request.method() + "\n"
                 + "【参数】：" + body + "\n"

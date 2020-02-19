@@ -3,8 +3,10 @@ package com.czh.basicframe.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.czh.basicframe.utils.CrashHandler;
 import com.czh.basicframe.utils.LogUtils;
 import com.czh.basicframe.utils.SharedPerfencensUtils;
+import com.zxy.tiny.Tiny;
 
 /**
  * author  : czh
@@ -25,6 +27,8 @@ public class BaseApplication extends Application {
         context = this;
         LogUtils.setIsDebug(true);
         SharedPerfencensUtils.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
+        Tiny.getInstance().debug(true);
     }
 
 }

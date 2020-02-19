@@ -17,4 +17,6 @@ public class Code {
 
     public static final int OPEN_ALBUM_F = 2002;//fragment获取相册的请求码
 
+    public static final int CROP_PIC  =  3001 ;//裁剪图片
+
 }

@@ -1,23 +1,21 @@
 package com.czh.basicframe.utils;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
+import android.os.CountDownTimer;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.czh.basicframe.R;
-import com.czh.basicframe.base.BaseApplication;
 
-import java.io.File;
-import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 /**
  * author  : czh
@@ -78,4 +76,49 @@ public class Tools {
         return false;
     }
 
+
+    private CountDownTimer countDownTimer;
+
+    /**
+     * 3 倒计时
+     * @param view 显示内容的view
+     * @param millisInFuture 倒计时总时间
+     * @param countDownInterval 倒计时时间间隔
+     * @return 把倒计时对象返回去在引用界面的onDestory()里面销毁。
+     */
+    public CountDownTimer countDown(View view, long millisInFuture, long countDownInterval) {
+        countDownTimer = new CountDownTimer(millisInFuture, countDownInterval) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                ((TextView) view).setText(millisInFuture / 1000 + "s");
+            }
+
+            @Override
+            public void onFinish() {
+                ((TextView) view).setText("重新获取");
+                view.setClickable(true);
+            }
+        }.start();
+        view.setClickable(false);
+        return countDownTimer;
+    }
+
+
+    public String getIpAddress(){
+        try {
+            for (Enumeration<NetworkInterface> enNetI = NetworkInterface.getNetworkInterfaces(); enNetI
+                    .hasMoreElements();) {
+                NetworkInterface netI = enNetI.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = netI.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (inetAddress instanceof Inet4Address &&!inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

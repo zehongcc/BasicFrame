@@ -9,21 +9,11 @@ import com.czh.basicframe.interfaces.DialogClickListener;
  *
  * @link NormDialog
  */
-class NormDialogParameter {
-    String title;
-    String content;
-    String ok;
-    String cancel;
+class NormDialogParameter extends BaseParam {
     boolean isHideCancel;//是否显示取消按钮
-    DialogClickListener listener;//点击事件监听
-
     //字体颜色
     int okTvColor;
     int cancelTvColor;
     int contentTvColor;
     int titleTvColor;
-
-    NormDialogParameter() {
-
-    }
 }

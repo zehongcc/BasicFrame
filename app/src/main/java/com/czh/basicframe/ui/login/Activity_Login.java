@@ -4,8 +4,7 @@ import android.os.Bundle;
 
 import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseActivity;
-
-import java.util.Random;
+import com.czh.basicframe.https.base.BasePresenter;
 
 /**
  * author  : czh
@@ -13,6 +12,12 @@ import java.util.Random;
  * 详情 :
  */
 public class Activity_Login extends BaseActivity {
+
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
 
     @Override
     protected int setLayout() {
@@ -27,5 +32,6 @@ public class Activity_Login extends BaseActivity {
     protected void main() {
 
     }
+
 
 }

@@ -61,6 +61,23 @@ public class SharedPerfencensUtils {
 
     ////////////////// put ////////////////////
 
+    public void put(String key, Object o) {
+        throwEx();
+        if (o instanceof String) {
+            editor.putString(key, ((String) o));
+        } else if (o instanceof Integer) {
+            editor.putInt(key, (Integer) o);
+        } else if (o instanceof Boolean) {
+            editor.putBoolean(key, (Boolean) o);
+        } else if (o instanceof Long) {
+            editor.putLong(key, (Long) o);
+        } else if (o instanceof Float) {
+            editor.putFloat(key, (Float) o);
+        }
+        commit();
+    }
+
+
     public void putString(String key, String value) {
         throwEx();
         editor.putString(key, value);
@@ -91,18 +108,13 @@ public class SharedPerfencensUtils {
         commit();
     }
 
-    public void remove(String key) {
-        throwEx();
-        editor.remove(key);
-        commit();
-    }
 
     /**
      * 抛出异常
      */
     private void throwEx() {
         if (sharedPreferences == null || editor == null) {
-            throw new NullPointerException("sharedPreferences is null , init this class in BaseApplication !!!");
+            throw new NullPointerException("sharedPreferences is null , inflateLayout this class in BaseApplication !!!");
         }
     }
 
@@ -122,5 +134,25 @@ public class SharedPerfencensUtils {
         if (editor != null) {
             editor.apply();
         }
+    }
+
+
+    /**
+     * 删除数据
+     * @param key
+     */
+    public void remove(String key) {
+        throwEx();
+        editor.remove(key);
+        commit();
+    }
+
+    /**
+     * 清除所有数据
+     */
+    public void clear(){
+        throwEx();
+        editor.clear();
+        commit();
     }
 }

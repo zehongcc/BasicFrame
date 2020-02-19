@@ -23,8 +23,6 @@ public class PermissionUtils {
 
     private static final String TAG = "PermissionUtils";
 
-    private String packageName = "com.czh.basicframe";
-
     public static PermissionUtils getInstance() {
         return PermissionHolder.instance;
     }

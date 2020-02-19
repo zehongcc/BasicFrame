@@ -1,34 +1,31 @@
 package com.czh.basicframe;
 
-import android.Manifest;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import com.czh.basicframe.base.BaseActivity;
-import com.czh.basicframe.db.SQHelper;
-import com.czh.basicframe.interfaces.OnCameraCallback;
+import com.czh.basicframe.https.base.BasePresenter;
+import com.czh.basicframe.ui.Fragment_1;
+import com.czh.basicframe.ui.Fragment_2;
+import com.czh.basicframe.ui.Fragment_3;
+import com.czh.basicframe.ui.Fragment_4;
 import com.czh.basicframe.ui.Fragment_Animation;
+import com.czh.basicframe.ui.Fragment_ConstraintLayout;
 import com.czh.basicframe.ui.Fragment_Test_DB;
 import com.czh.basicframe.ui.TestFragment;
+import com.czh.basicframe.ui.VoiceFragment;
 import com.czh.basicframe.utils.EventBean;
 import com.czh.basicframe.utils.LogUtils;
-import com.czh.basicframe.utils.PermissionUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements OnCameraCallback {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
@@ -38,6 +35,11 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
     private List<FragmentBean> fragments;
 
     @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
+
+    @Override
     protected int setLayout() {
         return R.layout.activity_main;
     }
@@ -45,10 +47,17 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        setIsBackAble(true);//开启双击退出程序
         fragments = new ArrayList<>();
+        fragments.add(new FragmentBean("...", false, new Fragment_4()));
+        fragments.add(new FragmentBean("图片", false, new Fragment_1()));
+        fragments.add(new FragmentBean("音频管理", false, new Fragment_2()));
+        fragments.add(new FragmentBean("自定义View", false, new Fragment_3()));
+        fragments.add(new FragmentBean("语音对讲", false, new VoiceFragment()));
         fragments.add(new FragmentBean("Test", false, new TestFragment()));
         fragments.add(new FragmentBean("db", false, new Fragment_Test_DB()));
         fragments.add(new FragmentBean("动画", false, new Fragment_Animation()));
+        fragments.add(new FragmentBean("ConstraintLayout", false, new Fragment_ConstraintLayout()));
     }
 
     @Override
@@ -82,7 +91,7 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
         FragmentBean fragmentBean = fragments.get(index);
         Fragment fragment = fragmentBean.getFragment();
         boolean add = fragmentBean.isAdd();
-        LogUtils.e("ChangeFragment === "+index + " ,, "+add);
+        LogUtils.e("ChangeFragment === " + index + " ,, " + add);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         for (int i = 0; i < fragments.size(); i++) {
             Fragment f = fragments.get(i).getFragment();
@@ -92,23 +101,11 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
             transaction.add(R.id.frameLayout, fragment);
             transaction.show(fragment);
             fragmentBean.setAdd(true);
-        }else {
-            transaction.show(fragment) ;
+        } else {
+            transaction.show(fragment);
         }
         transaction.commit();
     }
-
-    //请求权限
-    public void toRequest() {
-        PermissionUtils.getInstance().checkPermissions(this, new String[]{Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO}, 110, new PermissionUtils.OnPermissionCallBack() {
-            @Override
-            public void requestPermissionCallBack(boolean isSuccess, int requestCode) {
-                LogUtils.d("请求权限" + isSuccess + " , 请求码：" + requestCode);
-            }
-        });
-    }
-
 
     @Override
     public void onEventBus(EventBean object) {
@@ -116,23 +113,6 @@ public class MainActivity extends BaseActivity implements OnCameraCallback {
         if (object == null) return;
         String content = (String) object.getObject();
         int tag = object.getTag();
-    }
-
-    @Override
-    public void onCameraCallBack(File file) {
-        //相机拍照回调
-    }
-
-    @Override
-    public void onAblumCallBack(File file) {
-        //相册获取图片回调
-    }
-
-    @Override
-    public void onFail() {
-        //相机或者相册获取失败/取消
-        LogUtils.e(TAG, ">>>> 相机或者相册获取失败/取消 >>>> ");
-
     }
 
 

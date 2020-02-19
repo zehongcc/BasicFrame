@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BasicFrame</string>
+    <string name="item_tag_one">1</string>
+
 </resources>

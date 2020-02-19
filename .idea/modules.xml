@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/BasicFrame-app.iml" filepath="$PROJECT_DIR$/app/BasicFrame-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-BasicFrame.iml" filepath="$PROJECT_DIR$/android-BasicFrame.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testmodule/testmodule.iml" filepath="$PROJECT_DIR$/testmodule/testmodule.iml" />
     </modules>
   </component>
 </project>

@@ -1,11 +1,9 @@
 package com.czh.basicframe.https;
 
+import com.czh.basicframe.https.base.BaseBean;
+import com.czh.basicframe.https.mvp_eg.TestBean;
 
 import io.reactivex.Observable;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-
 
 /**
  * author  : czh
@@ -46,7 +44,7 @@ public interface MyService {
      *
      **/
 
-    @GET("{url}")
-    Observable<Object> test(@Path("url") String url);
+
+    Observable<BaseBean<TestBean>> test();
 
 }
