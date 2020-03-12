@@ -62,4 +62,7 @@ dependencies {
     //tiny
     implementation 'com.zxy.android:tiny:0.1.0'
 
+    //蒙
+    implementation 'com.binioter:guideview:1.0.0'
+
 }

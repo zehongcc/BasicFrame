@@ -36,9 +36,9 @@
 
             <Button
                 android:id="@+id/file_btn2"
-                android:text="map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="map"
                 android:textAllCaps="false" />
 
             <TextView
@@ -56,10 +56,10 @@
             android:orientation="horizontal">
 
             <Button
-                android:text="flatMapSample"
                 android:id="@+id/file_btn3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="flatMapSample"
                 android:textAllCaps="false" />
 
             <TextView
@@ -77,10 +77,10 @@
             android:orientation="horizontal">
 
             <Button
-                android:text="zipSample"
                 android:id="@+id/file_btn4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="zipSample"
                 android:textAllCaps="false" />
 
             <TextView
@@ -91,16 +91,36 @@
                 android:layout_marginRight="10dp" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/show_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:id="@+id/toActBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="界面进入效果" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/file_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
+        <Button
+            android:id="@+id/outActBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="界面退出效果" />
+
+        <Button
+            android:id="@+id/startAnim"
+            android:text="开始动画"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <com.czh.basicframe.widget.CLoadingView
+            android:layout_width="100dp"
+            android:id="@+id/cLoadingView"
+            android:layout_height="100dp"
+            android:layout_margin="20dp" />
 
     </LinearLayout>
 

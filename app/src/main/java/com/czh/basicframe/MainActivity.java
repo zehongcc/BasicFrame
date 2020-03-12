@@ -87,12 +87,23 @@ public class MainActivity extends BaseActivity {
         changeFragment(0);
     }
 
+    private int currentIndex;
+
     private void changeFragment(int index) {
         FragmentBean fragmentBean = fragments.get(index);
         Fragment fragment = fragmentBean.getFragment();
         boolean add = fragmentBean.isAdd();
         LogUtils.e("ChangeFragment === " + index + " ,, " + add);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //加上动画效果。
+        if (index > currentIndex) {
+            transaction.setCustomAnimations(
+                    R.anim.zoom_right_in, R.anim.zoom_left_out);
+        } else {
+            transaction.setCustomAnimations(
+                    R.anim.zoom_left_in, R.anim.zoom_right_out);
+        }
+        currentIndex = index;
         for (int i = 0; i < fragments.size(); i++) {
             Fragment f = fragments.get(i).getFragment();
             transaction.hide(f);

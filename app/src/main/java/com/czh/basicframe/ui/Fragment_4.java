@@ -1,16 +1,27 @@
 package com.czh.basicframe.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.binioter.guideview.Component;
+import com.binioter.guideview.Guide;
+import com.binioter.guideview.GuideBuilder;
 import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseFragment;
-import com.czh.basicframe.module.fragment4.Adpater_File;
+import com.czh.basicframe.calendar.CCalendarView;
+import com.czh.basicframe.ui.login.Activity_Login;
+import com.czh.basicframe.utils.DialogUtils;
 import com.czh.basicframe.utils.LogUtils;
+import com.czh.basicframe.widget.CLoadingView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,8 +51,6 @@ public class Fragment_4 extends BaseFragment {
     Button fileBtn3;
     @BindView(R.id.file_btn4)
     Button fileBtn4;
-    @BindView(R.id.file_recyclerView)
-    RecyclerView fileRecyclerView;
     @BindView(R.id.file_tv1)
     TextView filePathTv1;
     @BindView(R.id.file_tv2)
@@ -50,6 +59,16 @@ public class Fragment_4 extends BaseFragment {
     TextView filePathTv3;
     @BindView(R.id.file_tv4)
     TextView filePathTv4;
+    @BindView(R.id.show_btn)
+    Button showBtn;
+    @BindView(R.id.toActBtn)
+    Button toActBtn;
+    @BindView(R.id.outActBtn)
+    Button outActBtn;
+    @BindView(R.id.startAnim)
+    Button startAnim;
+    @BindView(R.id.cLoadingView)
+    CLoadingView cLoadingView;
 
     private Disposable mDisposable;//观察者和被观察者订阅关系
 
@@ -63,25 +82,30 @@ public class Fragment_4 extends BaseFragment {
         initRecyclerView();
     }
 
-    private Adpater_File adapter;
-
     private void initRecyclerView() {
-        fileRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        adapter = new Adpater_File(mContext);
-        fileRecyclerView.setAdapter(adapter);
     }
 
 
     @Override
     protected void main() {
-
+        views.add(fileBtn1);
+        views.add(fileBtn2);
+        views.add(fileBtn3);
+        views.add(fileBtn4);
     }
 
-    @OnClick({R.id.file_btn1, R.id.file_btn2, R.id.file_btn3, R.id.file_btn4})
+    @OnClick({R.id.file_btn1, R.id.file_btn2, R.id.file_btn3, R.id.file_btn4, R.id.show_btn, R.id.toActBtn, R.id.outActBtn,R.id.startAnim})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.file_btn1:
-                LogUtils.e(TAG, "  >>>>>> 订阅关系 <<<<<<  " + (mDisposable == null));
+                DialogUtils.getInstance().showTimeDialog(mContext, null,
+                        false, new CCalendarView.OnSelectTimeListener() {
+                    @Override
+                    public void onSelect(String time) {
+                    filePathTv1.setText(time);
+                    }
+                });
+//                LogUtils.e(TAG, "  >>>>>> 订阅关系 <<<<<<  " + (mDisposable == null));
                 break;
             case R.id.file_btn2:
                 //创建被观察的对象
@@ -134,13 +158,100 @@ public class Fragment_4 extends BaseFragment {
             case R.id.file_btn4:
                 zipSample();
                 break;
+            case R.id.show_btn://显示指引蒙板
+                showGuideView(views.get(currentIndex), currentIndex);
+                break;
+            case R.id.toActBtn://界面跳转效果
+                Intent intent = new Intent(mContext, Activity_Login.class);
+                startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.zoom_right_out, R.anim.zoom_right_in);
+                break;
+            case R.id.outActBtn:
+                Intent intent1 = new Intent(mContext, Activity_Login.class);
+                startActivity(intent1);
+                break;
+            case R.id.startAnim:
+                cLoadingView.zoom();
+                break;
         }
     }
+
+    private Guide guide;
+    private List<View> views = new ArrayList<>();
+    int currentIndex = 0;
+
+    public void showGuideView(View view, int i) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(view)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                LogUtils.e(TAG, ">>>>>>>>>>> dismiss ");
+                currentIndex = i + 1;
+                if (currentIndex < views.size()) {
+                    showGuideView(views.get(currentIndex), currentIndex);
+                } else {
+                    currentIndex = 0;
+                }
+            }
+        });
+
+        builder.addComponent(new SimpleComponent());
+        guide = builder.createGuide();
+        guide.show(getActivity());
+    }
+
+
+    public class SimpleComponent implements Component {
+
+        @Override
+        public View getView(LayoutInflater inflater) {
+
+            LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.layer_frends, null);
+            ll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "引导层被点击了", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return ll;
+        }
+
+        @Override
+        public int getAnchor() {
+            return Component.ANCHOR_BOTTOM;
+        }
+
+        @Override
+        public int getFitPosition() {
+            return Component.FIT_END;
+        }
+
+        @Override
+        public int getXOffset() {
+            //X轴偏移距离了 单位dp
+            return 10;
+        }
+
+        @Override
+        public int getYOffset() {
+            //Y轴偏移距离  单位dp
+            return 10;
+        }
+    }
+
 
     /**
      * flatMap不保证下游接收时间的顺序。 -- contactMap 能保证顺序输出
      */
-    private void flatMapSample(){
+    private void flatMapSample() {
         Observable<Integer> sourceVable = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
@@ -159,7 +270,7 @@ public class Fragment_4 extends BaseFragment {
         observable.subscribe(new Consumer<String>() {
             @Override
             public void accept(String s) throws Exception {
-                LogUtils.e(TAG," >>>>>>> "+s);
+                LogUtils.e(TAG, " >>>>>>> " + s);
             }
         });
     }
@@ -167,13 +278,13 @@ public class Fragment_4 extends BaseFragment {
     /**
      * 压缩 ： 将多个被观察者压缩成一个返回。
      */
-    private void zipSample(){
+    private void zipSample() {
         Observable<Integer> observable1 = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                    emitter.onNext(1);
-                    emitter.onNext(2);
-                    emitter.onNext(3);
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
             }
         });
         Observable<String> observable2 = Observable.create(new ObservableOnSubscribe<String>() {
@@ -183,17 +294,17 @@ public class Fragment_4 extends BaseFragment {
                 emitter.onNext("B");
                 emitter.onNext("C");
             }
-        }) ;
+        });
         //BiFunction 一个基于多个输入值计算一个值的功能接口（回调）。
         Observable.zip(observable1, observable2, new BiFunction<Integer, String, String>() {
             @Override
             public String apply(Integer integer, String s) throws Exception {
-                return integer+s;
+                return integer + s;
             }
         }).subscribe(new Consumer<String>() {
             @Override
             public void accept(String s) throws Exception {
-                LogUtils.e(TAG," >>>>>>> "+s);
+                LogUtils.e(TAG, " >>>>>>> " + s);
             }
         });
     }

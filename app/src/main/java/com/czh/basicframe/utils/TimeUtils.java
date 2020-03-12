@@ -580,5 +580,10 @@ public class TimeUtils {
         return null;
     }
 
+    public String getCurrentYear() {
+        String currentTime = getCurrentTime("yyyy-M");
+        return String.valueOf(currentTime.split("-")[0]);
+    }
+
 
 }

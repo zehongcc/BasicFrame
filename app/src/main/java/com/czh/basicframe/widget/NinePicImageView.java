@@ -256,7 +256,7 @@ public class NinePicImageView extends View {
 //            initPicWidthAndHeight(files);
 //            long endTime = System.currentTimeMillis();
 //            LogUtils.e(TAG, ">>>>>>>>>>> " + (endTime - startTime) + "ms" + " ,,, " + files.size());
-//        }).start();
+//        }).zoom();
 //    }
 
     public void setUrls(List<File> list) {

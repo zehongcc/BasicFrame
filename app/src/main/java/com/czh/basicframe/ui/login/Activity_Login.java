@@ -1,6 +1,7 @@
 package com.czh.basicframe.ui.login;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.czh.basicframe.R;
 import com.czh.basicframe.base.BaseActivity;
@@ -12,7 +13,6 @@ import com.czh.basicframe.https.base.BasePresenter;
  * 详情 :
  */
 public class Activity_Login extends BaseActivity {
-
 
     @Override
     protected BasePresenter createPresenter() {
@@ -34,4 +34,8 @@ public class Activity_Login extends BaseActivity {
     }
 
 
+    public void toClick(View view) {
+        mActivity.overridePendingTransition(R.anim.zoom_right_in, R.anim.zoom_right_out);
+        finish();
+    }
 }
