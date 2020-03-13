@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" overridePins="true" />
+            <certificates src="user" overridePins="true" />
+        </trust-anchors>
+    </base-config>
+    <!-- Android 9.0 上部分域名时使用 http -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">secure.example.com</domain>
+        <domain includeSubdomains="true">cdn.example1.com</domain>
+    </domain-config>
+</network-security-config>

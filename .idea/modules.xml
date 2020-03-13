@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/BasicFrame.iml" filepath="$PROJECT_DIR$/BasicFrame.iml" group="BasicFrame" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="BasicFrame/app" />
       <module fileurl="file://$PROJECT_DIR$/testmodule/testmodule.iml" filepath="$PROJECT_DIR$/testmodule/testmodule.iml" group="BasicFrame/testmodule" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/BasicFrame.iml" filepath="$PROJECT_DIR$/BasicFrame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/BasicFrame-app.iml" filepath="$PROJECT_DIR$/app/BasicFrame-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-BasicFrame.iml" filepath="$PROJECT_DIR$/android-BasicFrame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testmodule/testmodule.iml" filepath="$PROJECT_DIR$/testmodule/testmodule.iml" />
+>>>>>>> origin/master
     </modules>
   </component>
 </project>
